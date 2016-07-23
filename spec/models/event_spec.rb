@@ -12,4 +12,13 @@ RSpec.describe Event, type: :model do
   		expect(event.venue_name).to eq "RMIT"
   	end
   end
+
+  describe "#feature_events" do
+    it "Past events should not be shown"  do
+       event1, event2 = Event.new(starts_at: 1.day.ago), Event.new(starts_at: DateTime.now + 5.days)
+       event1.save! validate: false
+       event2.save! validate: false 
+       expect(Event.feature_events).to eq [event2]
+     end
+  end
 end

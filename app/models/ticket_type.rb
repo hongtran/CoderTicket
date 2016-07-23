@@ -9,4 +9,9 @@ class TicketType < ActiveRecord::Base
   	end
   end
 
+  def check_quantity(quantity)
+  	if max_quantity < quantity
+  		errors.add(:base, "Quanlity can not great than max_quantity")
+  	end
+  end
 end
