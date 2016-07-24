@@ -13,12 +13,18 @@ RSpec.describe EventsController, type: :controller do
 	   	 expect(response).to render_template("index")
 	   end
 	end
-	let(:event) {event = Event.new}
-	describe "Get #edit/:id" do
-		
-		#event.save! validate: false
-		 
-		
 
+	describe "Get edit/id" do
+		it "user who created the event can edit the event" do
+			user1 = User.new(name: "test", email: "test@gmail.com", password: "123456")
+			user2 = User.new(name: "test2", email: "test2@gmail.com", password: "123456")
+			user1.save
+			user2.save
+			event = Event.new(user_id: user1.id)
+			event.save! validate: false
+			allow(controller).to receive(:current_user) { user2 }
+			get :edit, id: event.id
+			expect(response).to render_template("events/show")
+		end
 	end
 end
