@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :require_login, only: [:new, :create, :edit, :update, :list]
+  before_action :require_login, only: [:new, :create, :update, :list]
   def index
   	if params[:search]
   		@events = Event.search(params[:search])

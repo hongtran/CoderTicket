@@ -7,6 +7,6 @@ RSpec.describe "events/index", type: :view do
         event2.save! validate: false 
 		assign(:events, Event.all)
 		render
-		expect(view).to render_template(:partial => "_card", :count => 2)
+		expect(view).to render_template(:partial => "_card", :count => Event.all.count)
 	end
 end
