@@ -13,4 +13,12 @@ RSpec.describe EventsController, type: :controller do
 	   	 expect(response).to render_template("index")
 	   end
 	end
+	let(:event) {event = Event.new}
+	describe "Get #edit/:id" do
+		
+		#event.save! validate: false
+		 
+		
+
+	end
 end

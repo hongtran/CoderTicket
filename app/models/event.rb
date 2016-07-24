@@ -18,4 +18,11 @@ class Event < ActiveRecord::Base
   def self.feature_events
   	 where("starts_at >= ?", DateTime.now)
   end
+
+  def make_publish
+    if self.ticket_types.count >= 1
+      self.publish = true
+      self.save!
+    end
+  end
 end

@@ -23,4 +23,14 @@ RSpec.describe TicketType, type: :model do
       expect(type.errors[:base]).to eq ["Quanlity can not great than max_quantity"]
     end
   end
+
+  describe "can only buy up to 10 of a ticket type at a time" do
+    it "the quantity can not great than 10" do
+      event = Event.new(name: "test")
+      event.save validate: false
+      type = event.ticket_types.create! price: 1.00, max_quantity: 10
+      type.max_quantity_buy(11)
+      expect(type.errors[:base]).to eq ["Quanlity can not great than 10"]
+    end
+  end
 end

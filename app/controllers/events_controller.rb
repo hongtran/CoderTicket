@@ -27,6 +27,16 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
+  def edit
+  	@event = Event.find(params[:id])
+  	if @event.user_id == current_user.id
+  		@venues = Venue.all
+  		@categories = Category.all
+  	else
+  		redirect_to root_path, notice: "you dont permission to edit this event"
+  	end
+  end
+
   private
 
   def event_params

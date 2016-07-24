@@ -1,37 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe Event, type: :model do
-	let(:event) {event = Event.new}
-  describe "#venue_name" do
-  	it "return nil if there is no venue" do
-  		expect(event.venue_name).to be_nil
-  	end
-
-  	it "returns venue name if there is a event" do
-  		event.venue = Venue.new(name: "RMIT")
-  		expect(event.venue_name).to eq "RMIT"
-  	end
-  end
-
-  describe "#feature_events" do
-    it "Past events should not be shown"  do
-       event1, event2 = Event.new(starts_at: 1.day.ago), Event.new(starts_at: DateTime.now + 5.days)
-       event1.save! validate: false
-       event2.save! validate: false 
-       expect(Event.feature_events).to eq [event2]
-     end
-  end 
-
-  describe "Event have at least one ticket type defined before it can be published" do
-    it "Event dont have ticket type" do
-      event.publish = true
-      event.save! validate: false
-      expect(event.make_publish).to eq nil
-    end
-
-    it "Event have more than 1 ticket type" do
-      event.publish = false
-      event.name = 'Việt Nam Thử Thách 2017' 
+RSpec.describe "events/show.html.erb", type: :view do
+	it "displays the event venue" do
+	  event = Event.new
+	  event.publish = false
+      event.name = 'Việt Nam Thử Thách 2018' 
       event.starts_at = DateTime.parse('Fri, 20 Sep 2016 7:00 AM+0700')
       event.ends_at = DateTime.parse('Sun, 28 Sep 2016 3:00 PM+0700')
       event.venue = Venue.new(name: "RMIT")
@@ -46,9 +19,9 @@ RSpec.describe Event, type: :model do
     <p style="text-align:center"><span style="font-size:16px">Để biết thêm thông tin chi tiết và tạo thêm hứng khởi cho cuộc đua 2016, vui lòng ghé thăm trang web</span></p>
     <p style="text-align:center"><span style="font-size:16px"><strong><span style="background-color:transparent; color:rgb(0, 0, 0)">www.vietnamvictorychallenge.com. </span></strong></span></p>
   DESC
-      event.save!
-      event.ticket_types.create! price: 1.00, max_quantity: 20
-      expect(event.make_publish).to eq true 
-    end
-  end
+		event.save! validate: false
+		assign(:event, event)
+		render
+		expect(rendered).to include("Việt Nam Thử Thách 2018")
+	end
 end
