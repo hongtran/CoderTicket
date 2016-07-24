@@ -22,9 +22,9 @@ RSpec.describe EventsController, type: :controller do
 			user2.save
 			event = Event.new(user_id: user1.id)
 			event.save! validate: false
-			allow(controller).to receive(:current_user) { user2 }
+			allow(controller).to receive(:current_user) { user1 }
 			get :edit, id: event.id
-			expect(response).to render_template("events/show")
+			expect(response).to render_template("edit")
 		end
 	end
 end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post 'sessions/create'
   delete '/logout' => 'sessions#destroy'
   root 'events#index'
+  get '/events/list' => 'events#list'
   resources :venue, only:[:new, :create]
   resources :users
     resources :events do

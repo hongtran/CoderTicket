@@ -19,4 +19,12 @@ class ApplicationController < ActionController::Base
   		return false
   	end
   end
+  
+  def require_login
+  	unless signed_in?
+  		flash[:errors] = "you must log in to access this section"
+  		redirect_to sessions_new_path
+  	end
+  end
+  
 end

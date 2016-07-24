@@ -19,6 +19,10 @@ class Event < ActiveRecord::Base
   	 where("starts_at >= ?", DateTime.now)
   end
 
+  def self.own_events(user)
+    where("user_id = ?", user.id)
+  end
+
   def make_publish
     if self.ticket_types.count >= 1
       self.publish = true
